@@ -31,6 +31,21 @@ static uart_port_t g_uart_num = UART_NUM_1;
 static int g_tx_io_num        = GPIO_NUM_17;
 static int g_rx_io_num        = GPIO_NUM_10;
 
+#define CONFIG_HOST_BUS_MODE_UART 
+#define CONFIG_HOST_BUS_MODE 0
+#define CONFIG_HOST_BUS_UART_BAUD_RATE 115200
+#define CONFIG_HOST_BUS_UART_BYTE_SIZE 3
+#define CONFIG_HOST_BUS_UART_STOP_BITS 1
+#define CONFIG_HOST_BUS_UART_FLOW_CONTROL 0
+// CONFIG_HOST_BUS_UART_NUM=1
+// CONFIG_HOST_BUS_UART_RX_PIN=10
+// CONFIG_HOST_BUS_UART_TX_PIN=17
+#define CONFIG_HOST_BUS_UART_RTS_PIN -1
+#define CONFIG_HOST_BUS_UART_CTS_PIN -1
+
+static esp_err_t host_bus_deinit_hdl(void);
+
+
 void host_bus_init(uart_port_t id, int tx, int rx)
 {
     g_uart_num  = id;
