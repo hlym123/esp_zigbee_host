@@ -27,9 +27,9 @@
 
 static const char *TAG = "ESP_ZNSP_BUS";
 
-static uart_port_t g_uart_num = UART_NUM_1;
-static int g_tx_io_num        = GPIO_NUM_17;
-static int g_rx_io_num        = GPIO_NUM_10;
+static int g_uart_num = 2; 
+static int g_tx_io_num = GPIO_NUM_17;
+static int g_rx_io_num = GPIO_NUM_10;
 
 #define CONFIG_HOST_BUS_MODE_UART 
 #define CONFIG_HOST_BUS_MODE 0
@@ -55,7 +55,8 @@ void host_bus_init(uart_port_t id, int tx, int rx)
 
 void host_bus_deinit(void)
 {
-    host_bus_deinit_hdl();
+    esp_host_stop();
+    esp_host_deinit();
 }
 
 static QueueHandle_t uart0_queue;
@@ -86,7 +87,6 @@ static esp_err_t host_bus_init_hdl(uint8_t transport)
         .flow_ctrl  = CONFIG_HOST_BUS_UART_FLOW_CONTROL,
         .source_clk = UART_SCLK_DEFAULT,
     };
-
     uart_driver_install(g_uart_num, HOST_BUS_BUF_SIZE * 2, HOST_BUS_BUF_SIZE * 2, 20, &uart0_queue, 0);
     uart_param_config(g_uart_num, &uart_config);
     uart_set_pin(g_uart_num, g_tx_io_num, g_rx_io_num, CONFIG_HOST_BUS_UART_RTS_PIN, CONFIG_HOST_BUS_UART_CTS_PIN);
